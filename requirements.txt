@@ -1,0 +1,18 @@
+# Instalação: pip install -r requirements.txt && pip install -e .
+numpy
+pandas
+geopandas
+shapely>=2
+pyproj
+rasterio
+matplotlib
+folium
+scipy
+python-dotenv
+earthengine-api
+geemap
+pytest
+nbformat
+nbclient
+ipykernel
+requests
