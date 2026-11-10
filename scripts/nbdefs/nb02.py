@@ -152,11 +152,5 @@ ax.set(ylabel="Índice", title="T01 — NDVI e NDRE (" + ("sintético" if serie_
 plt.tight_layout(); plt.savefig(OUTPUTS / "figures" / "02_ndvi_ndre_t01.png"); plt.show()
 """)
     n.md("""
-**Como ler:** NDRE tem amplitude e valores menores que o NDVI (usa banda de borda do vermelho). **Atenção:** na série sintética a relação NDVI→NDRE foi *imposta* pelo gerador (`ndre = 0,62·ndvi − 0,04 + ruído`); com dados reais, compare as duas curvas empiricamente e **não** reaproveite essa relação. Culturas perenes de dossel denso tendem a saturar o NDVI; NDRE é frequentemente usado por manter sensibilidade em coberturas altas — hipótese a ser verificada com seus dados.
-
-## 8. Exercícios
-1. Troque o mínimo `min_obs` de 2 para 1 e 3. O que acontece com meses de verão?
-2. Em `ee_utils.mask_scl`, remova a classe 7 de `SCL_VALID`. O que muda no número de observações válidas?
-3. Calcule NDRE com B8A em vez de B8 (adapte `add_indices`). Qual a implicação de B8A ter 20 m?
-""")
+**Como ler:** NDRE tem amplitude e valores menores que o NDVI (usa banda de borda do vermelho). **Atenção:** na série sintética a relação NDVI→NDRE foi *imposta* pelo gerador (`ndre = 0,62·ndvi − 0,04 + ruído`); com dados reais, compare as duas curvas empiricamente e **não** reaproveite essa relação. Culturas perenes de dossel denso tendem a saturar o NDVI; NDRE é frequentemente usado por manter sensibilidade em coberturas altas — hipótese a ser verificada com seus dados.""")
     return n

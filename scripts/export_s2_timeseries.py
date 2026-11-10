@@ -1,6 +1,6 @@
 """Extrai série NDVI/NDRE por talhão do Sentinel-2 SR Harmonized via Earth Engine.
 
-Requer autenticação (veja docs/pt-BR/00_guia_de_estudo.md e README). Saída: CSV longo
+Requer autenticação (veja docs/GUIA_TECNICO.md). Saída: CSV longo
 com colunas date, talhao_id, ndvi, ndre (média zonal a 10 m, composição mensal por mediana).
 
 Uso:

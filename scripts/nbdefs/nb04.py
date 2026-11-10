@@ -148,11 +148,5 @@ print("União                    :", sorted(detectados))
 print("Acertos:", sorted(gabarito & detectados), "| Falsos positivos:", sorted(detectados - gabarito), "| Perdidos:", sorted(gabarito - detectados))
 """)
     n.md("""
-**Interpretação:** nenhuma regra isolada serve para os dois tipos de evento. A regra *persistente* (média por meses) captura T08, mas dilui o T03, cuja queda se recupera; o z robusto captura o T03, mas "normaliza" o T08, porque a anomalia persistente vira o novo normal da série. A união recupera os dois, ao custo de um falso positivo (ruído do talhão T01 ultrapassa |z|>3 em algumas datas) — o trade-off sensibilidade × falsos alarmes. Subir o limiar de dias eliminaria esse falso positivo, mas escolher o limiar **olhando o gabarito** seria ajuste ao teste (overfitting). Esta conferência só é possível porque o dado é sintético; resultados dependem dos limiares, da janela (30 d), do ruído simulado e da semente — é um **teste de sanidade do método**, não uma medida de desempenho em campo. Com dados reais, a validação precisa de **observações de campo** (visitas, laudos, registros de manejo).
-
-## 7. Exercícios
-1. Varie `window_days` (0, 15, 60) e o limiar de |z|. Como mudam acertos/falsos positivos?
-2. Recalcule a anomalia temporal usando `BASE = ("2021-01-01", "2023-12-31")` (inclui o evento). O que acontece com T03? Por quê?
-3. Simule uma queda regional (subtraia 0,1 de todos os talhões em um mês) e verifique que a anomalia **relativa** não a detecta, mas a **temporal** sim.
-""")
+**Interpretação:** nenhuma regra isolada serve para os dois tipos de evento. A regra *persistente* (média por meses) captura T08, mas dilui o T03, cuja queda se recupera; o z robusto captura o T03, mas "normaliza" o T08, porque a anomalia persistente vira o novo normal da série. A união recupera os dois, ao custo de um falso positivo (ruído do talhão T01 ultrapassa |z|>3 em algumas datas) — o trade-off sensibilidade × falsos alarmes. Subir o limiar de dias eliminaria esse falso positivo, mas escolher o limiar **olhando o gabarito** seria ajuste ao teste (overfitting). Esta conferência só é possível porque o dado é sintético; resultados dependem dos limiares, da janela (30 d), do ruído simulado e da semente — é um **teste de sanidade do método**, não uma medida de desempenho em campo. Com dados reais, a validação precisa de **observações de campo** (visitas, laudos, registros de manejo).""")
     return n

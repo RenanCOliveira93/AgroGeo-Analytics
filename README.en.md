@@ -1,33 +1,41 @@
 # AgroGeo Analytics
 
-A **Geospatial Data Science** study applied to agriculture, focused on **coffee growing in Piraju, São Paulo (Brazil)**, adaptable to other crops and countries. Core deliverable: **six executable Jupyter notebooks**; documentation is in Brazilian Portuguese (`docs/pt-BR`). [Versão em português](README.md)
+Geospatial data science workflow for agriculture, applied to coffee growing in Piraju, São Paulo (Brazil): GIS operations on field plots, Sentinel-2 spectral indices (NDVI, NDRE), zonal statistics, time series with anomalies and interactive maps. [Versão em português](README.md)
 
-> **Data notice.** Field plots (*talhões*), the NDVI/NDRE time series and the sample raster are **SYNTHETIC** (fixed random seed; labelled in files, columns and plots). They exist so the code runs offline and for teaching — they are **not empirical results**. The Piraju municipal boundary (and neighbours) is **real** (IBGE). For real work, supply your own plot GeoJSON and use Earth Engine.
+> **Synthetic data.** The plots (*talhões*), the NDVI/NDRE series and the raster in `data/sample/` are synthetic (fixed seed, labelled in files, columns and plots) and are not empirical results. The Piraju municipal boundary and its neighbours are real (IBGE).
 >
-> **NDVI/NDRE do not diagnose diseases, pests or deficiencies.** They reflect spectral reflectance and only yield *hypotheses* to be checked in the field.
+> NDVI/NDRE do not diagnose diseases, pests or deficiencies; they reflect reflectance and only yield hypotheses to be checked in the field.
 
-## Contents
-| Notebook | Topic |
-|---|---|
-| [01_fundamentos_gis](notebooks/01_fundamentos_gis.ipynb) | CRS/EPSG, geometry, reprojection, area, buffers, intersections |
-| [02_dados_satellite](notebooks/02_dados_satellite.ipynb) | Sentinel-2, SCL cloud mask, temporal composites, NDVI & NDRE, Earth Engine |
-| [03_analise_talhoes](notebooks/03_analise_talhoes.ipynb) | zonal statistics, edge effects, plot comparison |
-| [04_series_temporais](notebooks/04_series_temporais.ipynb) | gaps, seasonality, temporal and relative anomalies |
-| [05_mapas_interativos](notebooks/05_mapas_interativos.ipynb) | folium maps, raster overlay, GeoJSON/HTML export |
-| [06_insights_agricolas](notebooks/06_insights_agricolas.ipynb) | interpretation, limitations, agronomic hypotheses, MapBiomas |
+The technical guide ([docs/GUIA_TECNICO.md](docs/GUIA_TECNICO.md)) is written in Brazilian Portuguese.
+
+## Features
+
+- GIS operations in a metric CRS: area, buffers (including negative), compactness, intersections.
+- NDVI and NDRE with SCL cloud masking (Sentinel-2 SR Harmonized).
+- Raster zonal statistics, edge effects and plot comparison.
+- Time series: gaps, climatology, temporal and relative anomalies, robust z-score, limited interpolation.
+- Interactive maps (folium) and GeoJSON/HTML export.
+- Optional Google Earth Engine and MapBiomas integration for real data.
+
+## Example outputs (synthetic data)
+
+![Edge effect](outputs/figures/03_efeito_borda.png)
+![Relative anomaly](outputs/figures/04_anomalia_relativa.png)
+
+## Architecture
 
 ```
-src/agrogeo/     reusable functions (gis, indices, zonal, timeseries, maps, ee_utils, synthetic, config)
-tests/           pytest (30 tests)
-scripts/         IBGE download, sample-data generation, Earth Engine/MapBiomas export, notebook build/run
-data/sample/     small data: IBGE boundaries (real) + plots/series/raster (synthetic)
-docs/pt-BR/      study guide, GIS, remote sensing, indices, formulas, walkthrough, plot reading,
-                 provenance, limitations, installation, worked exercises, deeper questions
-outputs/         figures, HTML maps and GeoJSON produced by the notebooks
+data/sample/ --> src/agrogeo/ --> notebooks/ (01..06) --> outputs/ (figures, HTML maps, GeoJSON)
+                     ^
+scripts/ ------------+   IBGE download, synthetic data, Earth Engine/MapBiomas export, notebook build/run
 ```
 
-## Installation
-Requires Python ≥ 3.10.
+Modules in `src/agrogeo/`: `gis`, `indices`, `zonal`, `timeseries`, `maps`, `ee_utils`, `synthetic`, `config`.
+
+## Quick start
+
+Requires Python 3.10 or later.
+
 ```bash
 python3 -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
@@ -35,48 +43,49 @@ pip install -e .
 pytest -q
 jupyter lab notebooks/                                   # or: python scripts/run_notebooks.py
 ```
-Notebooks run **offline** on `data/sample/` by default.
 
-## Earth Engine (optional, real data)
-1. Register a Google Cloud project for Earth Engine ([earthengine.google.com](https://earthengine.google.com); check the non-commercial/commercial terms).
-2. `cp .env.example .env`, then set `EE_PROJECT` and `AGROGEO_USE_EE=1`.
-3. `earthengine authenticate`
-4. `python scripts/export_s2_timeseries.py --talhoes YOURS.geojson --out data/processed/serie_s2.csv`
-5. `python scripts/export_mapbiomas_stats.py --geojson YOURS.geojson --year 2023`
+Notebooks run offline on the data in `data/sample/`. Data reproduction and Earth Engine setup: [technical guide](docs/GUIA_TECNICO.md) (Portuguese).
 
-Your plot GeoJSON must be in EPSG:4326 with a unique `talhao_id` column. See [docs/pt-BR/09_instalacao_earth_engine.md](docs/pt-BR/09_instalacao_earth_engine.md) (Portuguese).
+## Notebooks
 
-## Reproducing the sample data
-```bash
-python scripts/download_ibge.py --codigo 3538808 && python scripts/download_ibge.py --vizinhos
-python scripts/generate_sample_data.py
-python scripts/build_notebooks.py && python scripts/run_notebooks.py
+| Notebook | Topic |
+|---|---|
+| [01_fundamentos_gis](notebooks/01_fundamentos_gis.ipynb) | CRS/EPSG, geometry, reprojection, area, buffers, intersections |
+| [02_dados_satellite](notebooks/02_dados_satellite.ipynb) | Sentinel-2, SCL mask, temporal composites, NDVI and NDRE |
+| [03_analise_talhoes](notebooks/03_analise_talhoes.ipynb) | zonal statistics, edge effects, plot comparison |
+| [04_series_temporais](notebooks/04_series_temporais.ipynb) | gaps, seasonality, temporal and relative anomalies |
+| [05_mapas_interativos](notebooks/05_mapas_interativos.ipynb) | folium maps, raster overlay, GeoJSON/HTML export |
+| [06_insights_agricolas](notebooks/06_insights_agricolas.ipynb) | interpretation, limitations, agronomic hypotheses, MapBiomas |
+
+## Repository structure
+
+```
+src/agrogeo/     Python package
+tests/           pytest tests
+scripts/         IBGE download, sample data, Earth Engine/MapBiomas export, notebook build/run
+notebooks/       executed notebooks
+data/sample/     small data: IBGE boundaries (real) and plots/series/raster (synthetic)
+outputs/         figures, HTML maps and GeoJSON produced by the notebooks
+docs/            technical guide
 ```
 
-## Sources (verified 2026-10-31)
-- **Sentinel-2 SR Harmonized** — `COPERNICUS/S2_SR_HARMONIZED` (Earth Engine); Copernicus Sentinel Data Terms and Conditions apply.
-- **MapBiomas Brazil** — `projects/mapbiomas-public/assets/brazil/lulc/v1` (30 m; CC-BY-4.0 per the Earth Engine catalog); class 46 = Coffee.
-- **IBGE** — municipal boundaries (Malhas API v3). Piraju = 3538808.
-- **Plots** — user-provided GeoJSON; otherwise synthetic, explicitly labelled.
+## Tests
 
-## Verification status (in the development environment)
-| Item | Status |
-|---|---|
-| `pytest` (30 tests) | **run, passing** |
-| Notebooks 01–06 (offline mode) | **executed successfully** (outputs stored in the `.ipynb` files) |
-| IBGE download | **run** |
-| Earth Engine code (`ee_utils`, export scripts) | **NOT run** — no credentials; only `features_to_dataframe` is unit-tested. Written from the docs; may need adjustments |
-| MapBiomas filter (`collection_id=10`, `version="v1"`) | **NOT run/confirmed** — verify the values in the asset |
-| HTML maps | generated, **not opened in a browser** (tiles need internet) |
+```bash
+pytest -q
+```
 
-## Limitations (summary)
-Pixel mixing (10/20 m), seasonality, clouds, perennial crops (continuous canopy, biennial bearing, pruning), autocorrelation, and no ground truth. See [docs/pt-BR/08_limitacoes.md](docs/pt-BR/08_limitacoes.md).
+They cover `gis`, `indices`, `zonal`, `timeseries`, `synthetic`, `maps` and the Earth Engine result conversion. Code that talks to Earth Engine has no automated test against the live service.
 
-## Repository, versioning and running on another machine
+## Data and licences
 
-Published from the original development machine (macOS, Podman). This has **not** been run on GitHub Codespaces or Docker Desktop; if you run it there, treat it as a first verification and compare with the tests section.
+- **Sentinel-2 SR Harmonized** (`COPERNICUS/S2_SR_HARMONIZED`, Earth Engine): Copernicus Sentinel Data Terms and Conditions.
+- **MapBiomas Brazil** (`projects/mapbiomas-public/assets/brazil/lulc/v1`, 30 m): CC-BY-4.0 per the catalog; class 46 = Coffee.
+- **IBGE**: municipal boundaries (Malhas API v3); Piraju = 3538808.
+- **Plots**: user-provided GeoJSON; otherwise synthetic.
 
-- **Not versioned:** `data/raw/` and `data/processed/` (IBGE downloads and derivatives). Recreate with the `scripts/download_ibge.py` and `scripts/generate_sample_data.py` commands in *Reprodução dos dados de exemplo* (internet required).
-- **Versioned:** `src/`, `scripts/`, executed notebooks, tests, `docs/pt-BR/` and `data/sample/` (**synthetic** demo data; notebooks run offline with it).
-- **Not executed in this delivery:** Earth Engine (needs account/credentials); see *Estado de verificação*.
-- **Code licence:** GPL-3.0 (`LICENSE`). Third-party data/model licences and attributions: see the sections and docs above.
+Provenance, synthetic-data parameters and attributions: [technical guide](docs/GUIA_TECNICO.md#3-fontes-de-dados-e-proveniência).
+
+## Licence
+
+GPL-3.0. See [LICENSE](LICENSE).

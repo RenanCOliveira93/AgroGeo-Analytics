@@ -6,3 +6,12 @@ data/raw/
 data/processed/
 *.egg-info/
 .pytest_cache/
+.DS_Store
+.venv*/
+venv/
+*.log
+*.zip
+*.pt
+*.pth
+*.ckpt
+*.h5

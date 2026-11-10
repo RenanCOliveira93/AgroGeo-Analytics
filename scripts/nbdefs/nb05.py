@@ -113,11 +113,5 @@ print("GeoJSON validado:", p_geo.name, chk.shape, "| CRS", chk.crs.to_string())
 **Notas de exportação**
 - GeoJSON (RFC 7946) deve estar em EPSG:4326 — `export_geojson` converte.
 - O HTML usa tiles OpenStreetMap/CARTO via internet (abra com conexão). Respeite os termos de uso dos provedores de tiles e **mantenha a atribuição** exibida no mapa.
-- Mapas do HTML com muitos polígonos ficam pesados; para regiões grandes, simplifique geometrias ou use tiles vetoriais.
-
-## 6. Exercícios
-1. Gere o mapa de **NDRE** e compare visualmente com o de NDVI. Quando os padrões espaciais diferem?
-2. Adicione ao tooltip `ano_plantio` e crie um mapa por idade da lavoura.
-3. Exporte o mapa para um período específico (ex.: só jun–set/2023) e fixe `vmin`/`vmax` para comparar com outro período.
-""")
+- Mapas do HTML com muitos polígonos ficam pesados; para regiões grandes, simplifique geometrias ou use tiles vetoriais.""")
     return n

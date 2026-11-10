@@ -165,13 +165,5 @@ ax.set(title="Piraju e vizinhos (IBGE) · talhões sintéticos em vermelho", xla
 plt.tight_layout(); plt.savefig(OUTPUTS / "figures" / "01_regiao.png"); plt.show()
 """)
     n.md("""
-**Como ler o mapa:** polígonos coloridos são municípios (malha IBGE, qualidade intermediária); os pontos vermelhos agrupados são os talhões sintéticos — pequenos em relação ao município, por isso aparecem como uma mancha.
-
-## 7. Exercícios
-1. Calcule a área de Piraju em ha em EPSG:31982 e compare com o valor oficial do IBGE (consulte o site do IBGE e **cite a fonte**). Que diferença você espera por causa da malha simplificada (qualidade intermediária)?
-2. Qual buffer negativo mantém ≥ 70% da área do menor talhão? (*dica:* teste −5, −10, −15 m.)
-3. Repita a comparação de projeções em outra latitude (ex.: Bahia, lat ≈ −12°). O erro do Web Mercator aumenta ou diminui? Por quê?
-
-Soluções comentadas: `docs/pt-BR/10_exercicios_resolvidos.md`.
-""")
+**Como ler o mapa:** polígonos coloridos são municípios (malha IBGE, qualidade intermediária); os pontos vermelhos agrupados são os talhões sintéticos — pequenos em relação ao município, por isso aparecem como uma mancha.""")
     return n

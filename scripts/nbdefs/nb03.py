@@ -8,7 +8,7 @@ def build():
 
 **AgroGeo Analytics · Projeto 01**
 
-> ⚠️ Raster e série usados aqui são **sintéticos** (veja `data/sample/` e `docs/pt-BR/07_proveniencia_dados.md`). Os números mostram *como calcular*, não resultados agronômicos.
+> ⚠️ Raster e série usados aqui são **sintéticos** (veja `data/sample/` e `docs/GUIA_TECNICO.md`). Os números mostram *como calcular*, não resultados agronômicos.
 
 ## Objetivos
 1. Calcular **estatísticas zonais** (média, desvio, percentis, CV) de um raster dentro de polígonos.
@@ -118,11 +118,5 @@ saida = tal[["talhao_id", "cultivar", "ano_plantio", "area_ha"]].merge(resumo, o
 (config.DATA_PROCESSED).mkdir(parents=True, exist_ok=True)
 saida.to_csv(config.DATA_PROCESSED / "estatisticas_talhoes.csv", index=False)
 print("Salvo em data/processed/estatisticas_talhoes.csv", saida.shape)
-""")
-    n.md("""
-## 6. Exercícios
-1. Calcule o CV por talhão no raster (`z_full["cv"]`). Qual talhão é mais heterogêneo *na imagem sintética*? O que isso significaria no campo (hipóteses, não conclusões)?
-2. Rode `zonal_stats_raster(..., all_touched=True)`. Por que o nº de pixels aumenta e o que acontece com a média?
-3. Substitua a média por **mediana** e **P10** no ranking. O ranking muda? Qual métrica é mais robusta a lacunas e pixels ruins?
 """)
     return n

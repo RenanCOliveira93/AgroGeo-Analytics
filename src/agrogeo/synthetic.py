@@ -1,7 +1,7 @@
 """Dados SINTÉTICOS para demonstração offline.
 
 ATENÇÃO: nada aqui é medição. Polígonos, séries NDVI/NDRE e raster são gerados por
-modelos simples com semente fixa, apenas para exercitar o código e a didática.
+modelos simples com semente fixa, apenas para executar o código offline (demonstração e testes).
 Todo produto gerado carrega o marcador ``SINTETICO``.
 """
 from __future__ import annotations
